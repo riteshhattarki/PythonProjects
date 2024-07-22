@@ -1,0 +1,170 @@
+# This class will start setting up the game by initializing the game board and the names
+# This class also takes care of the place where the ship is placed on both boards
+class Battleship:
+    # Initializing the game board
+    def __init__(self, input_board, input_name):
+        self.board = input_board
+        self.name = input_name
+    
+    def __repr__(self):
+        return self.name
+
+    # Printing the game board
+    def print_board(self):
+        for row in self.board:
+            print(row)
+
+    # Takes collected user input and marks the appropriate spots in the board --> This is where the ships
+    # are located
+    def place_ship(self, start_row, end_row, start_col, end_col):
+        # if (end_row - start_row > 5) or (end_col - start_col > 5):
+            # print("Cannot place ships greater than length 5.")
+        if end_row == start_row:
+            for i in range(start_col, end_col + 1):
+                self.board[start_row][i] = "B"
+        elif end_col == start_col:
+            for i in range(start_row, end_row + 1):
+                self.board[i][start_col] = "B"
+    
+    # Checks if player one won the game
+    def player_one_check_win(self):
+        player_one_won = True
+        B_count = 0
+        for row in self.board:
+            if "B" in row:
+                B_count += 1
+        if B_count == 0:
+            player_one_won = False
+            return player_one_won
+        return player_one_won
+    
+    # Checks if player two won the game
+    def player_two_check_win(self):
+        player_two_won = True
+        B_count = 0
+        for row in self.board:
+            if "B" in row:
+                B_count += 1
+        if B_count == 0:
+            player_two_won = False
+            return player_two_won
+        return player_two_won
+    # Affects player two's board
+    def player_one_attack(self, row_number, col_number):
+        if self.board[row_number][col_number] == "B":
+            print("Hit!")
+            self.board[row_number][col_number] = "X"
+            # Prints player two's board
+            self.print_board()
+        else:
+            print("Miss.")
+            self.print_board()
+
+    def player_two_attack(self, row_number, col_number):
+        if self.board[row_number][col_number] == "B":
+            print("Hit!")
+            self.board[row_number][col_number] = "X"
+            # Prints player one's board
+            self.print_board()
+        else:
+            print("Miss.")
+            self.print_board()
+            
+        
+
+
+# --------------------------------------------------------------
+
+print("Welcome to Battleship!  Let's get started.")
+
+# Initializing two boards for the two players
+player_one_board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+player_two_board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+print("Enter player one name: ")
+player_one_name = input()
+print("Enter player two name: ")
+player_two_name = input()
+# Creating two objects that represent the two players in the game
+# Controls the board specific to each player and the names specific to each player
+player_one = Battleship(player_one_board, player_one_name)
+player_two = Battleship(player_two_board, player_two_name)
+
+# Initializing three ships to be placed on the 10 x 10 board
+num_ships = 3
+# Allows player one to place their ships on player_one_board
+for i in range(num_ships):
+    print(player_one_name + " start by placing your ships on your board.  There are " + str(num_ships) + " ships to place")
+    # Collecting iput that represents what starting row to ending row and starting col to ending col the ships will be placed on for player one
+    player_one_starting_row = input()
+    player_one_ending_row = input()
+    player_one_starting_col = input()
+    player_one_ending_col = input()
+    # Calls the place_ship function for player one and marks player one's board appropriately
+    player_one.place_ship(int(player_one_starting_row), int(player_one_ending_row), int(player_one_starting_col), int(player_one_ending_col))
+    # Prints player one's board
+    player_one.print_board()
+    num_ships -= 1
+# Allows player two to place their ships on player_two_board --> Same code as above but for player two
+num_ships = 3
+for i in range(num_ships):
+    print(player_two_name + " start by placing your ships on your board.  There are " + str(num_ships) + " ships to place")
+    player_two_starting_row = input()
+    player_two_ending_row = input()
+    player_two_starting_col = input()
+    player_two_ending_col = input()
+    player_two.place_ship(int(player_two_starting_row), int(player_two_ending_row), int(player_two_starting_col), int(player_two_ending_col))
+    player_two.print_board()
+    num_ships -= 1
+
+# Attack logic
+print("We are now ready for attack!")
+# Dictionary that maps the coordinate letter names to the row numbers
+letter_names_to_row_numbers = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9}
+
+# Main attack logic that runs in a while loop that runs as long as either player hasn't won
+while(player_one.player_one_check_win() and player_two.player_two_check_win()):
+    print("Player one: Select a coordinate to attack player two")
+    # Collects input for player one for letter coordinate and col number 
+    player_one_letter_name = input()
+    player_one_column_number = input()
+    # Converting col number to an int
+    player_one_int_column_number = int(player_one_column_number)
+    # Traverses through every key in the above dictionary and finds the appropriate row value
+    for letter in letter_names_to_row_numbers.keys():
+        if player_one_letter_name == letter:
+            row_number = letter_names_to_row_numbers.get(player_one_letter_name)
+    # Player one attacks player two, so we call the player_one_attack function with the player two object reference
+    player_two.player_one_attack(row_number, player_one_int_column_number)
+    
+    # Same code above but for player two
+    print("Player two: Select a coordinate to attack player one")
+    player_two_letter_name = input()
+    player_two_column_number = input()
+    player_two_int_column_number = int(player_two_column_number)
+    # Traverses through every key in the above dictionary and finds the appropriate row value
+    for letter in letter_names_to_row_numbers.keys():
+        if player_two_letter_name == letter:
+            row_number = letter_names_to_row_numbers.get(player_two_letter_name)
+    player_one.player_two_attack(row_number, player_two_int_column_number)
